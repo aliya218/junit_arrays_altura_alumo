@@ -1,13 +1,24 @@
 package org.iesvdm;
 
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AlturaAlumnoTest {
+
+    private final PrintStream standardOut = System.out;
+    private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
+
+    @BeforeEach
+    public void setUp() {
+        System.setOut(new PrintStream(outputStreamCaptor));
+    }
     @Test
     void verdadero() {
         assertTrue(1==1);
@@ -113,6 +124,32 @@ public class AlturaAlumnoTest {
 
     }
 
+    @Test
+    void buscarNombre(){
 
+        /*given : */
+        // Aquí definimos las variables que hay en el método.
+        String[] array = { "hola","juan"};
+        String nombre = "juan";
+        int position = 1;
 
-}
+        /*when : */
+        // Definimos un result para el Test, que es del mismo tipo que la variable
+        // que se retorna en el método;
+        int result = AlturaAlumno.buscaNombre(array, nombre);
+
+        /*then : */
+        assertEquals(nombre, array[1]);
+
+    }
+
+    @Test void mostrar (){
+        //given //
+        String[]arrayNombre = {"Juan", "bela"};
+        double[]arrayAltura = {1.3,1.5};
+
+        AlturaAlumno.mostrar(arrayNombre, arrayAltura);
+        assertEquals("Juan\t|   1.3\nbela\t|   1.5\n", outputStreamCaptor.toString());
+        assertTrue(outputStreamCaptor.toString().contains("Juan"));
+    }
+    }
